@@ -1,5 +1,5 @@
 {
-   "abstract" : "It's new $module",
+   "abstract" : "create DDL of DBIx::Schema::DDL from SQL",
    "author" : [
       "tokubass <tokubass@cpan.org>"
    ],
@@ -42,16 +42,30 @@
       },
       "runtime" : {
          "requires" : {
+            "DBIx::Schema::DSL" : "0",
+            "SQL::Translator" : "0",
             "perl" : "5.008001"
          }
       },
       "test" : {
          "requires" : {
+            "Test::Differences" : "0",
             "Test::More" : "0.98"
          }
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/tokubass/SQL-Translator-Producer-DBIxSchemaDDL/issues"
+      },
+      "homepage" : "https://github.com/tokubass/SQL-Translator-Producer-DBIxSchemaDDL",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/tokubass/SQL-Translator-Producer-DBIxSchemaDDL.git",
+         "web" : "https://github.com/tokubass/SQL-Translator-Producer-DBIxSchemaDDL"
+      }
+   },
    "version" : "0.01",
    "x_authority" : "cpan:TOKUBASS"
 }
