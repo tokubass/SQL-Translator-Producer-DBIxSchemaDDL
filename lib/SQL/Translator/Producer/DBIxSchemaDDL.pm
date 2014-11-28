@@ -77,6 +77,8 @@ sub build_column {
         my @element;
         push @element, sprintf("%s '%s'",$field->data_type, $field->name);
         push @element, 'pk' if $field->is_primary_key;
+        push @element, 'unique' if $field->is_unique;
+
         push @element, sprintf("size => [%s]",$field->size) if $field->size;
         push @element, 'unsigned' if $field->{unsigned};
         if ($field->is_nullable) {
@@ -93,6 +95,7 @@ sub build_column {
             my $format = $val eq 'CURRENT_TIMESTAMP' ? "on_update => '%s'" : "on_update => %s";
             push @element, sprintf($format, $field->{'on update'});
         }
+
         push @columns, join(', ', @element);
     }
     return \@columns;
