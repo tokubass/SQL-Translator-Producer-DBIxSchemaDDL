@@ -105,15 +105,12 @@ sub build_column {
 sub run {
     my $self = shift;
     my $tt = Template->new(%{$self->args}) || die Template->error;
-
-    $tt->process($self->tt_schema, $self->build_vars, \my $output ) or die $tt->error;
+    $tt->process($self->template, $self->build_vars, \my $output ) or die $tt->error;
     return $output;
 }
 
-1;
-
-
-__DATA__
+sub template {
+    return \<<'TEMP';
 [% FOREACH table = schema.get_tables -%]
 create_table [% table %] => columns {
 [% FOREACH column = columns.${table.name} -%]
@@ -122,3 +119,7 @@ create_table [% table %] => columns {
 };
 
 [%- END %]
+TEMP
+}
+
+1;

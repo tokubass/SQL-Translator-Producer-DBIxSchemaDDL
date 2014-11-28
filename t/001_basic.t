@@ -31,11 +31,11 @@ my $obj = SQL::Translator->new(
 my $output = $obj->translate( data => $sql);
 eq_or_diff($output, q!create_table user => columns {
   integer 'id', pk, size => [10], unsigned, not_null, auto_increment;
-  varchar 'name', size => [64], not_null;
+  varchar 'name', unique, size => [64], not_null;
   tinyint 'auth_type', size => [4], null;
   datetime 'login_datetime', not_null;
   datetime 'createstamp', not_null;
-  timestamp 'timestamp', default => 'CURRENT_TIMESTAMP', on_update => 'CURRENT_TIMESTAMP';
+  timestamp 'timestamp', not_null, default => 'CURRENT_TIMESTAMP', on_update => 'CURRENT_TIMESTAMP';
 };
 
 !);
