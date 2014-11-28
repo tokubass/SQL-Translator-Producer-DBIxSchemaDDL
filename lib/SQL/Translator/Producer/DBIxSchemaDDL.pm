@@ -70,16 +70,20 @@ sub normalize_extra_option {
 sub build_column {
     my $self = shift;
     my $fields = shift;
+    my $user_option = $self->translator->producer_args;
 
     my @columns;
-
     for my $field (@$fields) {
         my @element;
         push @element, sprintf("%s '%s'",$field->data_type, $field->name);
         push @element, 'pk' if $field->is_primary_key;
         push @element, sprintf("size => [%s]",$field->size) if $field->size;
         push @element, 'unsigned' if $field->{unsigned};
-        push @element, 'null' if $field->is_nullable;
+        if ($field->is_nullable) {
+            push @element, 'null';
+        }elsif( !$field->is_nullable && $user_option->{default_not_null}) {
+            push @element, 'not_null';
+        }
         push @element, 'auto_increment' if $field->is_auto_increment;
         if (my $val = $field->default_value) {
             my $format = $val eq 'CURRENT_TIMESTAMP' ? "default => '%s'" : "default => %s";

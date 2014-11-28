@@ -1,6 +1,7 @@
 use Test::More;
 use Test::Differences;
 use SQL::Translator;
+use DBIx::Schema::DSL;
 
 
 my $sql =<<SQL;
@@ -21,19 +22,34 @@ my $obj = SQL::Translator->new(
     show_warnings  => 1,
     from           => "MySQL",
     to             => "DBIxSchemaDDL",
+    producer_args  => {
+        default_not_null => 1,
+    },
 );
 
 
-my $output = $obj->translate(\$sql);
+my $output = $obj->translate( data => $sql);
 eq_or_diff($output, q!create_table user => columns {
-  integer 'id', pk, size => [10], unsigned, auto_increment;
-  varchar 'name', size => [64];
+  integer 'id', pk, size => [10], unsigned, not_null, auto_increment;
+  varchar 'name', size => [64], not_null;
   tinyint 'auth_type', size => [4], null;
-  datetime 'login_datetime';
-  datetime 'createstamp';
+  datetime 'login_datetime', not_null;
+  datetime 'createstamp', not_null;
   timestamp 'timestamp', default => 'CURRENT_TIMESTAMP', on_update => 'CURRENT_TIMESTAMP';
 };
 
 !);
+
+{
+    package My::Schema;
+    use DBIx::Schema::DSL;
+    database 'MySQL';
+    default_not_null;
+
+    eval $output;
+
+}
+
+#print My::Schema->output;
 
 done_testing;
