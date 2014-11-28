@@ -4,36 +4,36 @@ SQL::Translator::Producer::DBIxSchemaDDL - create DDL of DBIx::Schema::DDL from 
 
 # SYNOPSIS
 
-use SQL::Translator::Producer::DBIxSchemaDDL;
+    use SQL::Translator::Producer::DBIxSchemaDDL;
 
-my $sql =<<SQL;
- CREATE TABLE IF NOT EXISTS \`user\` (
-  \`id\`   int unsigned NOT NULL PRIMARY KEY AUTO\_INCREMENT,
-  \`name\` varchar(64) NOT NULL default '',
-  \`auth\_type\` tinyint NULL,
-  \`login\_datetime\` datetime NOT NULL,
-  \`createstamp\` datetime NOT NULL,
-  UNIQUE KEY \`name\` (\`name\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-SQL
+    my $sql =<<SQL;
+    CREATE TABLE IF NOT EXISTS `user` (
+      `id`   int unsigned NOT NULL PRIMARY KEY AUTO_INCREMENT,
+      `name` varchar(64) NOT NULL default '',
+      `auth_type` tinyint NULL,
+      `login_datetime` datetime NOT NULL,
+      `createstamp` datetime NOT NULL,
+      UNIQUE KEY `name` (`name`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    SQL
 
-my $obj = SQL::Translator->new(
-    from           => "MySQL",
-    to             => "DBIxSchemaDDL",
-    producer\_args  => {
-        default\_not\_null => 1,
-    },
-);
+    my $obj = SQL::Translator->new(
+        from           => "MySQL",
+        to             => "DBIxSchemaDDL",
+        producer_args  => {
+           default_not_null => 1,
+        },
+    );
 
-my $output = $obj->translate( data => $sql );
-\# create\_table user => columns {
-\#   integer 'id', pk, size => \[10\], unsigned, not\_null, auto\_increment;
-\#   varchar 'name', unique, size => \[64\], not\_null;
-\#   tinyint 'auth\_type', size => \[4\], null;
-\#   datetime 'login\_datetime', not\_null;
-\#   datetime 'createstamp', not\_null;
-\#   timestamp 'timestamp', not\_null, default => 'CURRENT\_TIMESTAMP', on\_update => 'CURRENT\_TIMESTAMP';
-\# };
+    my $output = $obj->translate( data => $sql );
+    # create_table user => columns {
+    #   integer 'id', pk, size => [10], unsigned, not_null, auto_increment;
+    #   varchar 'name', unique, size => [64], not_null;
+    #   tinyint 'auth_type', size => [4], null;
+    #   datetime 'login_datetime', not_null;
+    #   datetime 'createstamp', not_null;
+    #   timestamp 'timestamp', not_null, default => 'CURRENT_TIMESTAMP', on_update => 'CURRENT_TIMESTAMP';
+    # };
 
 # DESCRIPTION
 
