@@ -81,7 +81,7 @@ sub build_column {
         push @element, 'pk' if $field->is_primary_key;
         push @element, 'unique' if $field->is_unique;
 
-        if (_is_display_size($field)) {
+        if (_need_display_size($field)) {
             push @element, sprintf("size => [%s]",$field->size);
         }
         push @element, 'unsigned' if $field->{unsigned};
@@ -105,7 +105,7 @@ sub build_column {
     return \@columns;
 }
 
-sub _is_display_size {
+sub _need_display_size {
     my $field = shift;
     return unless $field->size;
     return if $field->data_type =~ /blob|text|^int(?:eger)?|^tinyint/i;
