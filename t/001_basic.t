@@ -35,7 +35,7 @@ eq_or_diff($output, q!create_table user => columns {
   tinyint 'auth_type', null;
   datetime 'login_datetime', not_null;
   datetime 'createstamp', not_null;
-  timestamp 'timestamp', not_null, default => 'CURRENT_TIMESTAMP', on_update => 'CURRENT_TIMESTAMP';
+  timestamp 'timestamp', not_null, default => \'CURRENT_TIMESTAMP', on_update => 'CURRENT_TIMESTAMP';
 };
 
 !);

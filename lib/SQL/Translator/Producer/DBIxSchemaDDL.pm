@@ -92,7 +92,7 @@ sub build_column {
         }
         push @element, 'auto_increment' if $field->is_auto_increment;
         if (my $val = $field->default_value) {
-            my $format = $val eq 'CURRENT_TIMESTAMP' ? "default => '%s'" : "default => %s";
+            my $format = $val eq 'CURRENT_TIMESTAMP' ? "default => \\'%s'" : "default => %s";
             push @element, sprintf($format,$field->default_value);
         }
         if (my $val = $field->{'on update'}) {
